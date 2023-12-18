@@ -1,24 +1,35 @@
 import streamlit as st
-from io import BytesIO
-from pydub import AudioSegment
+from tempfile import NamedTemporaryFile
+import librosa
 
-def main():
-    st.title('Audio File Uploader')
 
-    uploaded_file = st.file_uploader("Upload an audio file", type=["mp3", "wav", "m4a"])
+def validate_mp3(uploaded_file):
+    try:
+        audio, sr = librosa.load(uploaded_file, sr=None)
+        return True
+    except:
+        return False
 
-    if uploaded_file is not None:
 
-        # Check if the file type is supported
-        if uploaded_file.type in ["audio/mp3", "audio/wav", "audio/m4a"]:
-            # Convert the uploaded file to bytes
-            file_bytes = uploaded_file.getvalue()
-            
-            # Display the audio player
-            st.audio(file_bytes, format='audio/mp3')
+st.title("MP3 Player")
 
-        else:
-            st.write("Uploaded file type not supported. Please upload an MP3, WAV, or M4A file.")
+uploaded_file = st.file_uploader("Upload your MP3 audio", type=["mp3"])
 
-if __name__ == "__main__":
-    main() 
+if uploaded_file:
+    # Validate if it's actually an MP3 file
+    if not validate_mp3(uploaded_file):
+        st.error("Please upload a valid MP3 file.")
+    else:
+        with NamedTemporaryFile(suffix=".mp3") as temp:
+            temp.write(uploaded_file.read())
+            temp.seek(0)
+            st.audio(temp.name, autoplay=False)
+            st.button("Play", on_click=lambda: st.session_state.play_audio)
+            if st.session_state.get("play_audio", False):
+                st.audio(temp.name, format="audio/mpeg", autoplay=True)
+                del st.session_state.play_audio
+
+else:
+    st.write("Please upload an MP3 file to play.")
+
+
