@@ -42,5 +42,10 @@ if play_audio:
 else:
     st.write("Please upload an audio file to play.")
 
+# Optionally, display audio duration and other information
+if audio_data:
+    audio = AudioSegment.from_file(BytesIO(audio_data), format=audio_format)
+    audio_duration = len(audio) / 1000  # Convert to seconds
+    st.write(f"Audio Duration: {audio_duration:.2f} seconds")
 
 # Optionally, you can add more functionality or styling to the app
