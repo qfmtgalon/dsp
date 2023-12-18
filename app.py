@@ -1,4 +1,6 @@
 import streamlit as st
+from io import BytesIO
+from pydub import AudioSegment
 
 def main():
     st.title('Audio File Uploader')
@@ -7,14 +9,15 @@ def main():
 
     if uploaded_file is not None:
         st.write("File uploaded successfully!")
+        st.write.audio(audio_data, format=audio_format)
+        play_audio = True
 
         # Check if the file type is supported
         if uploaded_file.type == "audio/mp3" or uploaded_file.type == "audio/wav" or uploaded_file.type == "audio/m4a":
-            # Display the audio player for playback
-            st.audio(uploaded_file, format=uploaded_file.type)
+            st.audio(uploaded_file.read(), format=uploaded_file.type)
 
         else:
-            st.write("Uploaded file type not supported. Please upload an MP3, WAV, or M4A file.")
+            st.write("Uploaded file type not supported. Please upload an MP3 or WAV file.")
 
 if __name__ == "__main__":
     main()
