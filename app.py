@@ -54,7 +54,7 @@ def process_audio_file(uploaded_file):
     # Make a prediction
     prediction = model.predict(img_array)
     class_index = np.argmax(prediction)  # Assuming softmax output
-    prediction_label = 'Real Voice' if class_index == 0 else 'AI-Generated Voice'
+    prediction_label = 'AI-Generated Voicee' if class_index == 0 else 'Real Voice'
 
     # Display the result
     st.write(f"Prediction: {prediction_label}")
