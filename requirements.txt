@@ -1,8 +1,1 @@
-pydub
 streamlit
-ffmpeg
-librosa 
-matplotlib
-numpy
-soundfile
-io
