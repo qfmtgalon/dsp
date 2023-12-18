@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
+st.set_option('deprecation.showPyplotGlobalUse', False)
+
 def process_audio_file(uploaded_file):
     # Add your processing logic here
     st.audio(uploaded_file, format='audio/wav')
