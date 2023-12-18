@@ -16,21 +16,29 @@ play_audio = False
 
 # Check if an audio file was uploaded
 if audio_file is not None:
-    # Read the uploaded audio file and store it in audio_data
-    audio_data = audio_file.read()
-    audio_format = audio_file.type
+    try:
+        # Read the uploaded audio file and store it in audio_data
+        audio_data = audio_file.read()
+        audio_format = audio_file.type
 
-    # Display audio information
-    st.sidebar.text("Uploaded Audio:")
-    st.sidebar.audio(audio_data, format=audio_format)
-    play_audio = True
+        # Display audio information
+        st.sidebar.text("Uploaded Audio:")
+        st.sidebar.audio(audio_data, format=audio_format)
+        play_audio = True
+    except Exception as e:
+        st.write("Error reading the uploaded audio file.")
+        st.write(f"Error details: {str(e)}")
 
 # Display the audio player
 st.header("Audio Player")
 
 if play_audio:
-    # Use pydub to convert audio_data to a compatible format for playback
-    st.audio(audio_data, format=audio_format)
+    try:
+        # Use pydub to convert audio_data to a compatible format for playback
+        st.audio(audio_data, format=audio_format)
+    except Exception as e:
+        st.write("Error playing the audio.")
+        st.write(f"Error details: {str(e)}")
 else:
     st.write("Please upload an audio file to play.")
 
