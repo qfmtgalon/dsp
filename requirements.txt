@@ -2,3 +2,4 @@ streamlit
 librosa
 matplotlib
 numpy
+tensorflow
