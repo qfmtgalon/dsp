@@ -56,7 +56,7 @@ def process_audio_file(uploaded_file):
 
     # Make a prediction
     prediction = model.predict(img_array)
-    prediction_label = 'Real Voice' if prediction[0][0] > 0.0001 else 'AI-Generated Voice'
+    prediction_label = 'Real Voice' if prediction[0][0] > 0.05 else 'AI-Generated Voice'
 
     # Display the result
     st.write(f"Prediction: {prediction_label}")
@@ -66,7 +66,7 @@ def main():
     st.set_page_config(layout="wide", page_title='Audio Analysis App', page_icon='🔊')
     st.title('Classifying Real vs. AI-Generated Voices: A Deep Learning Approach Using Mel Spectrogram Analysis')
 
-    uploaded_file = st.file_uploader("Upload an audio file", type=["mp3", "wav", "m4a"])
+    uploaded_file = st.file_uploader("Upload an audio file", type=["mp3", "wav"])
 
     if uploaded_file is not None:
         st.write("File uploaded successfully!")
