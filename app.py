@@ -47,17 +47,24 @@ def process_audio_file(uploaded_file):
 
    # Preprocess and predict the spectrogram image
     img = Image.open(spectrogram_path).convert('RGB')  # Convert to RGB
-    img = img.resize((256, 256))  # Resize to match model input
     img_array = np.array(img) / 255.0  # Normalize pixel values
-    img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+    image = img_array.resize((256, 256))  # Resize to match model input
+    #img_array = np.array(img) / 255.0  # Normalize pixel values
+    #img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+
+    st.image(image, use_column_width=True)
+    prediction = model.predict(image)
+    class_index = np.argmax(prediction)
+    class_name = ["Real Voice", "AI-Generated Voice"][class_index]
+    st.success("Image Prediction: " + class_name)
 
     # Make a prediction
-    prediction = model.predict(img_array)
-    class_index = np.argmax(prediction)  # Assuming softmax output
-    prediction_label = 'AI-Generated Voicee' if class_index == 0 else 'Real Voice'
+    #prediction = model.predict(img_final)
+    #class_index = np.argmax(prediction)  # Assuming softmax output
+    #prediction_label = 'AI-Generated Voicee' if class_index == 0 else 'Real Voice'
 
     # Display the result
-    st.write(f"Prediction: {prediction_label}")
+    #st.write(f"Prediction: {prediction_label}")
 
 
 def main():
