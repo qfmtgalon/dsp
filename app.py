@@ -8,7 +8,6 @@ def main():
     uploaded_file = st.file_uploader("Upload an audio file", type=["mp3", "wav", "m4a"])
 
     if uploaded_file is not None:
-        st.write("File uploaded successfully!")
 
         # Check if the file type is supported
         if uploaded_file.type in ["audio/mp3", "audio/wav", "audio/m4a"]:
