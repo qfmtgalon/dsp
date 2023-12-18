@@ -46,10 +46,10 @@ def process_audio_file(uploaded_file):
     plt.savefig(spectrogram_path)
 
     # Load and preprocess the spectrogram image
-    img = Image.open(spectrogram_path).convert('RGB')  # Convert to RGB
-    img = img.resize((129, 129))  # Resize to 256x256
+    img = Image.open(spectrogram_path).convert('L')  # Convert to grayscale
+    img = img.resize((124, 129))  # Resize to 124x129
     img_array = np.array(img) / 255.0  # Normalize pixel values
-    img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+    img_array = img_array.reshape((1, 124, 129, 1))  # Reshape for model input
 
     # Debug: Print the shape of the input array
     print("Shape of input array:", img_array.shape)
