@@ -46,20 +46,26 @@ def process_audio_file(uploaded_file):
     plt.savefig(spectrogram_path)
 
     # Load and preprocess the spectrogram image
-    img = Image.open(spectrogram_path).convert('RGB')  # Convert to RGB
-    img = img.resize((256, 256))  # Resize to 256x256
-    img_array = np.array(img) / 255.0  # Normalize pixel values
-    img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+    #img = Image.open(spectrogram_path).convert('RGB')  # Convert to RGB
+    #img = img.resize((256, 256))  # Resize to 256x256
+    #img_array = np.array(img) / 255.0  # Normalize pixel values
+    #img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+
+    st.image(img, use_column_width=True)
+    prediction = import_and_predict(image, uploaded_file)
+    class_index = np.argmax(prediction)
+    class_name = ["Real Voice", "Fake Voice"][class_index]
+    st.success("Image Prediction: " + class_name)
 
     # Debug: Print the shape of the input array
-    print("Shape of input array:", img_array.shape)
+    #print("Shape of input array:", img_array.shape)
 
     # Make a prediction
-    prediction = model.predict(img_array)
-    prediction_label = 'Real Voice' if prediction[0][0] > 0.009 else 'AI-Generated Voice'
+   # prediction = model.predict(img_array)
+   # prediction_label = 'Real Voice' if prediction[0][0] > 0.009 else 'AI-Generated Voice'
 
     # Display the result
-    st.write(f"Prediction: {prediction_label}")
+    #st.write(f"Prediction: {prediction_label}")
 
 
 def main():
