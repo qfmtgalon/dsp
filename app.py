@@ -9,15 +9,17 @@ def main():
 
     if uploaded_file is not None:
         st.write("File uploaded successfully!")
-        st.write.audio(audio_data, format=audio_format)
-        play_audio = True
 
         # Check if the file type is supported
-        if uploaded_file.type == "audio/mp3" or uploaded_file.type == "audio/wav" or uploaded_file.type == "audio/m4a":
-            st.audio(uploaded_file.read(), format=uploaded_file.type)
+        if uploaded_file.type in ["audio/mp3", "audio/wav", "audio/m4a"]:
+            # Convert the uploaded file to bytes
+            file_bytes = uploaded_file.getvalue()
+            
+            # Display the audio player
+            st.audio(file_bytes, format='audio/mp3')
 
         else:
-            st.write("Uploaded file type not supported. Please upload an MP3 or WAV file.")
+            st.write("Uploaded file type not supported. Please upload an MP3, WAV, or M4A file.")
 
 if __name__ == "__main__":
-    main()
+    main() 
