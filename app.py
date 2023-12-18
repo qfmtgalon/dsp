@@ -42,7 +42,7 @@ def process_audio_file(uploaded_file):
 
     # Load and preprocess the spectrogram image
     img = Image.open(spectrogram_path)
-    img = img.resize((224, 224))  # Resize to match model input
+    img = img.resize((256, 256))  # Resize to match model input
     img_array = np.array(img) / 255.0  # Normalize pixel values
     img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
 
