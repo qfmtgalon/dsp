@@ -46,8 +46,8 @@ def process_audio_file(uploaded_file):
     plt.savefig(spectrogram_path)
 
     # Load and preprocess the spectrogram image
-    img = Image.open(spectrogram_path)
-    img = img.resize((244, 244))  # Resize to match model input
+    img = Image.open(spectrogram_path).convert('RGB')  # Convert to RGB
+    img = img.resize((256, 256))  # Resize to 256x256
     img_array = np.array(img) / 255.0  # Normalize pixel values
     img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
 
@@ -60,7 +60,6 @@ def process_audio_file(uploaded_file):
 
     # Display the result
     st.write(f"Prediction: {prediction_label}")
-
 
 
 def main():
