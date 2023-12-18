@@ -56,7 +56,7 @@ def process_audio_file(uploaded_file):
 
     # Make a prediction
     prediction = model.predict(img_array)
-    prediction_label = 'Real Voice' if prediction[0][0] > 0.009 else 'AI-Generated Voice'
+    prediction_label = 'Real Voice' if prediction[0][0] > prediction[0][1] else 'AI-Generated Voice'
 
     # Display the result
     st.write(f"Prediction: {prediction_label}")
