@@ -23,7 +23,7 @@ def process_audio_file(uploaded_file):
     y, sr = librosa.load(uploaded_file, sr=None)
 
     # Plot waveform
-    plt.figure(figsize=(2, 2))
+    plt.figure(figsize=(4, 4))
     plt.title('Waveform Visualization')
     plt.xlabel('Time')
     plt.ylabel('Amplitude')
@@ -34,7 +34,7 @@ def process_audio_file(uploaded_file):
     mel_spectrogram = librosa.feature.melspectrogram(y=y, sr=sr)
     mel_spectrogram_db = librosa.power_to_db(mel_spectrogram, ref=np.max)
 
-    plt.figure(figsize=(2, 2))
+    plt.figure(figsize=(4, 4))
     librosa.display.specshow(mel_spectrogram_db, sr=sr, x_axis='time', y_axis='mel')
     plt.title('Mel Spectrogram')
     plt.colorbar(format='%+2.0f dB')
