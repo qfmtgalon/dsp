@@ -8,7 +8,12 @@ import tensorflow as tf
 from PIL import Image
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
-model = tf.keras.models.load_model('model_vgg16.h5')
+
+def load_model():
+    model_path = '/mnt/data/model_vgg16.h5'  # Update this path if necessary
+    return tf.keras.models.load_model(model_path)
+    
+model = None
 
 def process_audio_file(uploaded_file):
     # Add your processing logic here
@@ -42,7 +47,7 @@ def process_audio_file(uploaded_file):
 
     # Load and preprocess the spectrogram image
     img = Image.open(spectrogram_path)
-    img = img.resize((256, 256))  # Resize to match model input
+    img = img.resize((244, 244))  # Resize to match model input
     img_array = np.array(img) / 255.0  # Normalize pixel values
     img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
 
