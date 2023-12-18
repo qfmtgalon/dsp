@@ -2,4 +2,3 @@ streamlit
 pydub
 ffmpeg
 ffprobe
-avprobe
