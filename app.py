@@ -4,10 +4,9 @@ from io import BytesIO
 
 # Set the title and page layout
 st.title("Audio Player App")
-st.sidebar.header("Upload Audio")
 
 # Create a file upload widget in the sidebar
-audio_file = st.sidebar.file_uploader(type=["mp3", "wav", "ogg"])
+audio_file = st.sidebar.file_uploader("Upload an audio file", type=["mp3", "wav", "ogg"])
 
 # Initialize variables to hold audio data and display status
 audio_data = None
