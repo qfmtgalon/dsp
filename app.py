@@ -50,12 +50,11 @@ def process_audio_file(uploaded_file):
     print("Shape of input array:", img_array.shape)
 
     # Make a prediction
-    try:
-        prediction = model.predict(img_array)
-        prediction_label = 'Real Voice' if prediction[0][0] > 0.5 else 'AI-Generated Voice'
-        st.write(f"Prediction: {prediction_label}")
-    except Exception as e:
-        st.error(f"Error during prediction: {e}")
+    prediction = model.predict(img_array)
+    prediction_label = 'Real Voice' if prediction[0][0] > 0.5 else 'AI-Generated Voice'
+
+    # Display the result
+    st.write(f"Prediction: {prediction_label}")
 
 
 
