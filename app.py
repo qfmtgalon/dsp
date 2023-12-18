@@ -46,12 +46,16 @@ def process_audio_file(uploaded_file):
     img_array = np.array(img) / 255.0  # Normalize pixel values
     img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
 
-    # Make a prediction
-    prediction = model.predict(img_array)
-    prediction_label = 'Real Voice' if prediction[0][0] > 0.5 else 'AI-Generated Voice'
+    # Debug: Print the shape of the input array
+    print("Shape of input array:", img_array.shape)
 
-    # Display the result
-    st.write(f"Prediction: {prediction_label}")
+    # Make a prediction
+    try:
+        prediction = model.predict(img_array)
+        prediction_label = 'Real Voice' if prediction[0][0] > 0.5 else 'AI-Generated Voice'
+        st.write(f"Prediction: {prediction_label}")
+    except Exception as e:
+        st.error(f"Error during prediction: {e}")
 
 
 
