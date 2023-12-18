@@ -47,12 +47,12 @@ def process_audio_file(uploaded_file):
 
     # Load and preprocess the spectrogram image
     img = Image.open(spectrogram_path).convert('RGB')  # Convert to RGB
-    #img = img.resize((256, 256))  # Resize to 256x256
-    #img_array = np.array(img) / 255.0  # Normalize pixel values
-    #img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+    img = img.resize((256, 256))  # Resize to 256x256
+    img_array = np.array(img) / 255.0  # Normalize pixel values
+    img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
 
-    st.image(img, use_column_width=True)
-    prediction = import_and_predict(image, uploaded_file)
+    st.image(img_array, use_column_width=True)
+    prediction = model.predict(img_array)
     class_index = np.argmax(prediction)
     class_name = ["Real Voice", "Fake Voice"][class_index]
     st.success("Image Prediction: " + class_name)
