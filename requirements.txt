@@ -3,4 +3,5 @@ tensorflow
 librosa
 numpy
 pip install pydub matplotlib
-
+pydub
+matplotlib
