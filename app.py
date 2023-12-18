@@ -10,10 +10,8 @@ from PIL import Image
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 def load_model():
-    model_path = '/mnt/data/model_vgg16.h5'  # Update this path if necessary
+    model_path = '/mnt/data/model_vgg16.h5'  # Ensure this is the correct path
     return tf.keras.models.load_model(model_path)
-    
-model = None
 
 def process_audio_file(uploaded_file):
     # Add your processing logic here
