@@ -1,37 +1,39 @@
 import streamlit as st
-import tensorflow as tf
-import librosa
+from pydub import AudioSegment
 import numpy as np
 import matplotlib.pyplot as plt
-from PIL import Image
 from io import BytesIO
 
-# Load your trained model
-model = tf.keras.models.load_model('model_scratch.h5')
+def process_audio_file(uploaded_file):
+    # Convert uploaded file to an audio segment
+    audio_segment = AudioSegment.from_file(uploaded_file)
+    
+    # Convert audio_segment to numpy array
+    samples = np.array(audio_segment.get_array_of_samples())
 
-def audio_to_spectrogram(audio_file):
-    y, sr = librosa.load(audio_file, sr=None, duration=6.0)
-    S = librosa.feature.melspectrogram(y, sr=sr, n_mels=256, fmax=8000)
-    plt.figure(figsize=(3.2, 3.2))
-    librosa.display.specshow(librosa.power_to_db(S, ref=np.max), fmax=8000)
-    plt.axis('off')
+    # Plot the waveform
+    plt.figure(figsize=(10, 4))
+    plt.plot(samples)
+    plt.title('Audio Waveform')
+    plt.xlabel('Sample')
+    plt.ylabel('Amplitude')
+    plt.grid()
+
+    # Convert plot to a PNG and display it using Streamlit
     buf = BytesIO()
-    plt.savefig(buf, format='png')
-    plt.close()
+    plt.savefig(buf, format="png")
     buf.seek(0)
-    img = Image.open(buf)
-    img = img.resize((256, 256))
-    return np.array(img)/255.0
+    st.image(buf, caption='Waveform of the uploaded audio file')
 
-def classify_audio(audio):
-    prediction = model.predict(np.expand_dims(audio, axis=0))
-    return 'Real Voice' if prediction[0][0] > 0.5 else 'AI-Generated Voice'
+def main():
+    st.title('Audio File Uploader')
 
-st.title('Real Voice vs AI-Generated Voice Classifier')
+    uploaded_file = st.file_uploader("Upload an audio file", type=["mp3", "wav", "m4a"])
 
-uploaded_file = st.file_uploader("Upload an audio file", type=["wav", "mp3"])
+    if uploaded_file is not None:
+        st.write("File uploaded successfully!")
+        if st.button('Process Audio'):
+            process_audio_file(uploaded_file)
 
-if uploaded_file is not None:
-    processed_audio = audio_to_spectrogram(uploaded_file)
-    result = classify_audio(processed_audio)
-    st.write(f'The audio is classified as: {result}')
+if __name__ == "__main__":
+    main()
