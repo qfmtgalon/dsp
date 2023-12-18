@@ -4,8 +4,11 @@ import librosa.display
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+import tensorflow as tf
+from PIL import Image
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
+model = tf.keras.models.load_model('model_vgg16.h5')
 
 def process_audio_file(uploaded_file):
     # Add your processing logic here
@@ -32,6 +35,25 @@ def process_audio_file(uploaded_file):
     plt.colorbar(format='%+2.0f dB')
     plt.tight_layout()
     st.pyplot()
+    
+    # Save the spectrogram to a temporary file
+    spectrogram_path = '/tmp/temp_spectrogram.png'
+    plt.savefig(spectrogram_path)
+
+    # Load and preprocess the spectrogram image
+    img = Image.open(spectrogram_path)
+    img = img.resize((224, 224))  # Resize to match model input
+    img_array = np.array(img) / 255.0  # Normalize pixel values
+    img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+
+    # Make a prediction
+    prediction = model.predict(img_array)
+    prediction_label = 'Real Voice' if prediction[0][0] > 0.5 else 'AI-Generated Voice'
+
+    # Display the result
+    st.write(f"Prediction: {prediction_label}")
+
+
 
 def main():
     st.set_page_config(layout="wide", page_title='Audio Analysis App', page_icon='🔊')
