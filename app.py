@@ -55,7 +55,7 @@ def process_audio_file(uploaded_file):
 
         prediction = model.predict(img_array)
         class_index = np.argmax(prediction)
-        class_name = ["Real Voice", "AI-Generated Voice"][class_index]
+        class_name = ["AI-Generated Voice", "Real Voice"][class_index]
         st.success("Prediction: " + class_name)
     except Exception as e:
         st.error(f"Error processing image: {e}")
