@@ -52,7 +52,7 @@ def process_audio_file(uploaded_file):
     #img_array = np.array(img) / 255.0  # Normalize pixel values
     #img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
 
-    st.image(image, use_column_width=True)
+    #st.image(image, use_column_width=True)
     prediction = model.predict(image)
     class_index = np.argmax(prediction)
     class_name = ["Real Voice", "AI-Generated Voice"][class_index]
