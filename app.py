@@ -14,6 +14,8 @@ def load_model():
     return tf.keras.models.load_model(model_path)
 
 def process_audio_file(uploaded_file):
+    # Load the model
+    model = load_model()
     # Add your processing logic here
     st.audio(uploaded_file, format='audio/wav')
 
