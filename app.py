@@ -23,7 +23,7 @@ def process_audio_file(uploaded_file):
     y, sr = librosa.load(uploaded_file, sr=None)
 
     # Plot waveform
-    plt.figure(figsize=(5, 4))
+    plt.figure(figsize=(2, 2))
     plt.title('Waveform Visualization')
     plt.xlabel('Time')
     plt.ylabel('Amplitude')
@@ -34,7 +34,7 @@ def process_audio_file(uploaded_file):
     mel_spectrogram = librosa.feature.melspectrogram(y=y, sr=sr)
     mel_spectrogram_db = librosa.power_to_db(mel_spectrogram, ref=np.max)
 
-    plt.figure(figsize=(5, 4))
+    plt.figure(figsize=(2, 2))
     librosa.display.specshow(mel_spectrogram_db, sr=sr, x_axis='time', y_axis='mel')
     plt.title('Mel Spectrogram')
     plt.colorbar(format='%+2.0f dB')
@@ -64,7 +64,7 @@ def process_audio_file(uploaded_file):
 
 def main():
     st.set_page_config(layout="wide", page_title='Audio Analysis App', page_icon='🔊')
-    st.title('Classifying Real vs. AI-Generated Voices: A Deep Learning Approach Using Mel Spectrogram Analysis')
+    st.title('A Deep Learning Approach to Analyzing Real vs. AI-Generated Voices Using Mel Spectrogram Analysis')
 
     uploaded_file = st.file_uploader("Upload an audio file", type=["mp3", "wav"])
 
