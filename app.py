@@ -16,6 +16,7 @@ def load_model():
 def process_audio_file(uploaded_file):
     # Load the model
     model = load_model()
+
     # Add your processing logic here
     st.audio(uploaded_file, format='audio/wav')
 
@@ -40,32 +41,24 @@ def process_audio_file(uploaded_file):
     plt.colorbar(format='%+2.0f dB')
     plt.tight_layout()
     st.pyplot()
-    
+
     # Save the spectrogram to a temporary file
-    spectrogram_path = '/tmp/temp_spectrogram.png'
+    spectrogram_path = 'temp_spectrogram.png'
     plt.savefig(spectrogram_path)
 
-   # Preprocess and predict the spectrogram image
-    img = Image.open(spectrogram_path).convert('RGB')  # Convert to RGB
-    img_array = np.array(img) / 255.0  # Normalize pixel values
-    image = img_array.resize((256, 256))  # Resize to match model input
-    #img_array = np.array(img) / 255.0  # Normalize pixel values
-    #img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+    # Preprocess and predict the spectrogram image
+    try:
+        img = Image.open(spectrogram_path).convert('RGB')  # Convert to RGB
+        img = img.resize((256, 256))  # Resize to match model input
+        img_array = np.array(img) / 255.0  # Normalize pixel values
+        img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
 
-    #st.image(image, use_column_width=True)
-    prediction = model.predict(image)
-    class_index = np.argmax(prediction)
-    class_name = ["Real Voice", "AI-Generated Voice"][class_index]
-    st.success("Image Prediction: " + class_name)
-
-    # Make a prediction
-    #prediction = model.predict(img_final)
-    #class_index = np.argmax(prediction)  # Assuming softmax output
-    #prediction_label = 'AI-Generated Voicee' if class_index == 0 else 'Real Voice'
-
-    # Display the result
-    #st.write(f"Prediction: {prediction_label}")
-
+        prediction = model.predict(img_array)
+        class_index = np.argmax(prediction)
+        class_name = ["Real Voice", "AI-Generated Voice"][class_index]
+        st.success("Prediction: " + class_name)
+    except Exception as e:
+        st.error(f"Error processing image: {e}")
 
 def main():
     st.set_page_config(page_title='Audio Analysis App', page_icon='🔊')
