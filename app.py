@@ -2,24 +2,31 @@ import streamlit as st
 import tensorflow as tf
 import librosa
 import numpy as np
+import cv2
+
 
 # Load your trained model
 model = tf.keras.models.load_model('model_scratch.h5')
 
 # Maximum duration for processing
 MAX_DURATION = 6.0
-
 def preprocess_audio(file):
     # Load audio file
     y, sr = librosa.load(file, sr=None, duration=MAX_DURATION)
-    
-    # Add your preprocessing steps here
-    # For example, you might need to extract features or reshape the data
-    
-    # Ensure the processed audio has the same shape as expected by the model
-    processed_audio = np.expand_dims(y, axis=0)
-    
+
+    # Convert audio signal to spectrogram (adjust parameters as needed)
+    spectrogram = librosa.feature.melspectrogram(y, sr=sr, n_fft=2048, hop_length=512)
+    spectrogram = librosa.power_to_db(spectrogram, ref=np.max)
+
+    # Resize the spectrogram to match the model's input shape
+    resized_spectrogram = cv2.resize(spectrogram, (256, 256), interpolation=cv2.INTER_NEAREST)
+
+    # Expand dimensions to create a batch of size 1
+    processed_audio = np.expand_dims(resized_spectrogram, axis=-1)
+    processed_audio = np.expand_dims(processed_audio, axis=0)
+
     return processed_audio
+
 
 def classify_audio(audio):
     # Use your model to classify the audio
