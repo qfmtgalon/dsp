@@ -32,7 +32,7 @@ def process_audio_file(uploaded_file):
     st.pyplot()
 
 def main():
-    st.title('Audio File Uploader and Waveform Visualizer')
+    st.title('Classifying Real vs. AI-Generated Voices: A Deep Learning Approach Using Mel Spectrogram Analysis')
 
     uploaded_file = st.file_uploader("Upload an audio file", type=["mp3", "wav", "m4a"])
 
