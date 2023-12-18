@@ -63,7 +63,7 @@ def process_audio_file(uploaded_file):
 
 
 def main():
-    st.set_page_config(layout="wide", page_title='Audio Analysis App', page_icon='🔊')
+    st.set_page_config(page_title='Audio Analysis App', page_icon='🔊')
     st.title('A Deep Learning Approach to Analyzing Real vs. AI-Generated Voices Using Mel Spectrogram Analysis')
 
     uploaded_file = st.file_uploader("Upload an audio file", type=["mp3", "wav"])
